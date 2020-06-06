@@ -1,0 +1,74 @@
+<!-- /templates/page.liquid -->
+<div class="grid">
+  <div class="grid__item large--five-sixths push--large--one-twelfth">
+
+    <header class="section-header text-center">
+      <h1>{{ page.title }}</h1>
+      <hr class="hr--small">
+    </header>
+
+    <div class="grid">
+      <div class="grid__item large--four-fifths push--large--one-tenth">
+        <div class="rte rte--nomargin rte--indented-images">
+          <div class="rte-content colored-links content-block">
+            <p>Discover everything available on our shop.</p>
+
+            <div class="parent-container">
+              <h1>Products</h1>
+              {%- paginate collections.all.products by 1000 -%}
+              <ul class="link-container">
+                {% for product in collections.all.products %}
+                <li><a class="sitemap_link text-link" href="{{ product.url | remove: 'products/' | append: '.html' }}">{{ product.title | escape  }}</a></li>
+                {% else %}
+                <li><a class="sitemap_link text-link" href="#">No Products Found</a></li>
+                {% endfor %}
+              </ul>
+              {%- endpaginate -%}
+            </div>
+
+            <div class="parent-container">
+              <h1>Collections</h1>
+              <ul class="link-container">
+                {% if collections.size > 0 %}
+                {% for collection in collections %}
+                {% if collection.handle != 'all-products' %}
+                <li><a class="sitemap_link text-link" href="{{ collection.url | remove: 'collections/' | append: '.html' }}">{{ collection.title }}</a></li>
+                {% endif %}
+                {% endfor %}{% else %}
+                <li><a class="sitemap_link text-link" href="#">No Collections Found</a></li>
+                {% endif %}
+              </ul>
+            </div>
+
+            <div class="parent-container">
+              <h1>Pages</h1>
+              <div class="link-container">
+                {% if linklists.main-menu.links.size > 0 %}
+                {% for link in linklists.main-menu.links %}{% if link.type == 'page_link' %}
+                <li><a class="sitemap_link text-link" href="{{ link.url | remove: 'pages/' | append: '.html' }}">{{ link.title }}</a></li>
+                {% endif %}{% endfor %}{% else %}
+                <li><a class="sitemap_link text-link" href="#">No Pages Found</a></li>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="parent-container">
+              <h1>Blogs</h1>
+              <div class="link-container">
+                {% for blog in blogs %}
+                <h6><a class="sitemap_link" href="{{ blog.url }}">{{ blog.title }} : Articles</a></h6>
+                {% for article in blog.articles %}
+                <li><a class="sitemap_link text-link" href="{{ article.url }}">{{ article.title }}</a></li>
+                {% else %}
+                <li><a class="sitemap_link text-link" href="#">No Collectionss Found</a></li>
+                {% endfor %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
